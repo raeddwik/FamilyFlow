@@ -1,66 +1,245 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+```
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <title>FamilyFlow</title>
+<title>FamilyFlow</title>
 
-    <meta name="theme-color" content="#315C68">
+<meta name="theme-color" content="#315C68">
 
-    <meta name="description"
-          content="FamilyFlow — تنظيم ومتابعة أنشطة ومهام الأسرة">
+<meta name="description"
+      content="FamilyFlow — تنظيم ومتابعة أنشطة ومهام الأسرة">
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f7f8;
+        color: #263238;
+    }
+
+    main {
+        max-width: 420px;
+        margin: 60px auto;
+        padding: 24px;
+    }
+
+    .login-card {
+        background: white;
+        padding: 28px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .welcome {
+        text-align: center;
+        color: #607d8b;
+        margin-bottom: 28px;
+    }
+
+    label {
+        display: block;
+        margin-top: 16px;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+        border: 1px solid #cfd8dc;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 24px;
+        padding: 13px;
+        border: none;
+        border-radius: 8px;
+        background: #315C68;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    #login-message {
+        margin-top: 16px;
+        text-align: center;
+        min-height: 24px;
+    }
+
+    #connection-status {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 13px;
+        color: #607d8b;
+    }
+</style>
+```
+
 </head>
 
 <body>
 
-    <main>
+```
+<main>
+
+    <div class="login-card">
 
         <h1>FamilyFlow</h1>
 
-        <p>
+        <p class="welcome">
             مرحبًا بكم في FamilyFlow
         </p>
 
-        <p>
-            تطبيق تنظيم ومتابعة أنشطة الأسرة
-        </p>
+        <form id="login-form">
+
+            <label for="email">
+                البريد الإلكتروني
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="أدخل البريد الإلكتروني"
+                required
+                autocomplete="email"
+            >
+
+            <label for="password">
+                كلمة المرور
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="أدخل كلمة المرور"
+                required
+                autocomplete="current-password"
+            >
+
+            <button
+                type="submit"
+                id="login-button">
+                تسجيل الدخول
+            </button>
+
+        </form>
+
+        <p id="login-message"></p>
 
         <p id="connection-status">
             جاري اختبار الاتصال...
         </p>
 
-    </main>
+    </div>
+
+</main>
 
 
-    <!-- Supabase JavaScript library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase JavaScript library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- FamilyFlow Supabase configuration -->
-    <script src="./supabase.js"></script>
+<!-- FamilyFlow Supabase configuration -->
+<script src="./supabase.js"></script>
 
 
-    <script>
+<script>
 
-        const statusElement =
-            document.getElementById('connection-status');
+    const statusElement =
+        document.getElementById('connection-status');
 
-        if (typeof supabaseClient !== 'undefined') {
+    const loginForm =
+        document.getElementById('login-form');
 
-            statusElement.textContent =
-                '✅ تم تحميل اتصال FamilyFlow بنجاح';
+    const loginButton =
+        document.getElementById('login-button');
 
-        } else {
+    const loginMessage =
+        document.getElementById('login-message');
 
-            statusElement.textContent =
-                '❌ حدث خطأ في تحميل Supabase';
+
+    if (typeof supabaseClient !== 'undefined') {
+
+        statusElement.textContent =
+            '✅ تم تحميل اتصال FamilyFlow بنجاح';
+
+    } else {
+
+        statusElement.textContent =
+            '❌ حدث خطأ في تحميل Supabase';
+
+    }
+
+
+    loginForm.addEventListener('submit', async function (event) {
+
+        event.preventDefault();
+
+        const email =
+            document.getElementById('email').value.trim();
+
+        const password =
+            document.getElementById('password').value;
+
+        loginMessage.textContent = '';
+
+        loginButton.disabled = true;
+        loginButton.textContent = 'جاري تسجيل الدخول...';
+
+
+        try {
+
+            const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            loginMessage.textContent =
+                '✅ تم تسجيل الدخول بنجاح';
+
+        } catch (error) {
+
+            loginMessage.textContent =
+                '❌ البريد الإلكتروني أو كلمة المرور غير صحيحة';
+
+        } finally {
+
+            loginButton.disabled = false;
+            loginButton.textContent = 'تسجيل الدخول';
 
         }
 
-    </script>
+    });
+
+</script>
+```
 
 </body>
 
