@@ -230,17 +230,14 @@ const { data: member, error: memberError } =
 
 if (memberError) {
     throw memberError;
+} catch (error) {
+
+    console.error(error);
+
+    loginMessage.textContent =
+        '❌ حدث خطأ: ' + error.message;
+
 }
-
-loginMessage.textContent =
-    '✅ تم تسجيل الدخول بنجاح — مرحبًا ' + member.full_name +
-    ' (' + member.role + ')';
-
-        } catch (error) {
-
-            loginMessage.textContent =
-                '❌ البريد الإلكتروني أو كلمة المرور غير صحيحة';
-
         } finally {
 
             loginButton.disabled = false;
