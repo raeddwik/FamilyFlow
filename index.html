@@ -29,7 +29,38 @@
             تطبيق تنظيم ومتابعة أنشطة الأسرة
         </p>
 
+        <p id="connection-status">
+            جاري اختبار الاتصال...
+        </p>
+
     </main>
+
+
+    <!-- Supabase JavaScript library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- FamilyFlow Supabase configuration -->
+    <script src="./supabase.js"></script>
+
+
+    <script>
+
+        const statusElement =
+            document.getElementById('connection-status');
+
+        if (typeof supabaseClient !== 'undefined') {
+
+            statusElement.textContent =
+                '✅ تم تحميل اتصال FamilyFlow بنجاح';
+
+        } else {
+
+            statusElement.textContent =
+                '❌ حدث خطأ في تحميل Supabase';
+
+        }
+
+    </script>
 
 </body>
 
