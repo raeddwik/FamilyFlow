@@ -221,8 +221,20 @@
             }
 
 
-            loginMessage.textContent =
-                '✅ تم تسجيل الدخول بنجاح';
+const { data: member, error: memberError } =
+    await supabaseClient
+        .from('family_members')
+        .select('full_name, role, active')
+        .eq('user_id', data.user.id)
+        .single();
+
+if (memberError) {
+    throw memberError;
+}
+
+loginMessage.textContent =
+    '✅ تم تسجيل الدخول بنجاح — مرحبًا ' + member.full_name +
+    ' (' + member.role + ')';
 
         } catch (error) {
 
