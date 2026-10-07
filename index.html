@@ -230,6 +230,28 @@ const { data: member, error: memberError } =
 
 if (memberError) {
     throw memberError;
+}
+
+loginMessage.textContent =
+    '✅ تم تسجيل الدخول بنجاح — مرحبًا ' + member.full_name +
+    ' (' + member.role + ')';
+
+} catch (error) {
+
+    console.error(error);
+
+    loginMessage.textContent =
+        '❌ حدث خطأ: ' + error.message;
+
+} finally {
+
+    loginButton.disabled = false;
+    loginButton.textContent = 'تسجيل الدخول';
+
+}
+
+if (memberError) {
+    throw memberError;
 } catch (error) {
 
     console.error(error);
