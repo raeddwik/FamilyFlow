@@ -212,6 +212,17 @@ logoutButton.addEventListener('click', async function () {
     location.reload();
 
 });
+    const familyMembersButton =
+    document.getElementById('family-members-button');
+
+const familyMembersSection =
+    document.getElementById('family-members-section');
+
+familyMembersButton.addEventListener('click', function () {
+
+    familyMembersSection.style.display = 'block';
+
+});
     if (typeof supabaseClient !== 'undefined') {
 
         statusElement.textContent =
