@@ -190,7 +190,16 @@
     const loginMessage =
         document.getElementById('login-message');
 
+const logoutButton =
+    document.getElementById('logout-button');
 
+logoutButton.addEventListener('click', async function () {
+
+    await supabaseClient.auth.signOut();
+
+    location.reload();
+
+});
     if (typeof supabaseClient !== 'undefined') {
 
         statusElement.textContent =
