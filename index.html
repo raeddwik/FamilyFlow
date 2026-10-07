@@ -293,7 +293,12 @@ addMemberButton.addEventListener('click', async function () {
 const familyMembersSection =
     document.getElementById('family-members-section');
 
-familyMembersButton.addEventListener('click', function () {
+addMemberButton.addEventListener('click', async function () {
+
+    alert('تم الضغط على زر إضافة فرد الأسرة');
+
+    const memberName =
+        document.getElementById('member-name').value.trim();
 
     familyMembersSection.style.display = 'block';
 
