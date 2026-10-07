@@ -298,14 +298,37 @@ const familyMembersSection =
     const familyMembersList =
     document.getElementById('family-members-list');
 
-addMemberButton.addEventListener('click', async function () {
-
-    alert('تم الضغط على زر إضافة فرد الأسرة');
-
-    const memberName =
-        document.getElementById('member-name').value.trim();
+familyMembersButton.addEventListener('click', async function () {
 
     familyMembersSection.style.display = 'block';
+
+    const { data, error } =
+        await supabaseClient
+            .from('family_members')
+            .select('full_name, role, active')
+            .order('id');
+
+    if (error) {
+        console.error(error);
+        familyMembersList.textContent =
+            '❌ حدث خطأ في تحميل أفراد الأسرة';
+        return;
+    }
+
+    familyMembersList.innerHTML = '';
+
+    data.forEach(function (member) {
+
+        const memberItem =
+            document.createElement('p');
+
+        memberItem.textContent =
+            '👤 ' + member.full_name +
+            ' — ' + member.role;
+
+        familyMembersList.appendChild(memberItem);
+
+    });
 
 });
     if (typeof supabaseClient !== 'undefined') {
