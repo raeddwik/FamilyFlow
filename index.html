@@ -245,7 +245,14 @@ if (memberError) {
 loginMessage.textContent =
     '✅ تم تسجيل الدخول بنجاح — مرحبًا ' + member.full_name +
     ' (' + member.role + ')';
+            
+document.querySelector('.login-card').style.display = 'none';
 
+document.getElementById('dashboard').style.display = 'block';
+
+document.getElementById('dashboard-welcome').textContent =
+    'مرحبًا ' + member.full_name;
+            
 } catch (error) {
 
     console.error(error);
