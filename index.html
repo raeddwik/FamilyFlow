@@ -250,24 +250,7 @@ loginMessage.textContent =
 
 }
 
-if (memberError) {
-    throw memberError;
-} catch (error) {
-
-    console.error(error);
-
-    loginMessage.textContent =
-        '❌ حدث خطأ: ' + error.message;
-
-}
-        } finally {
-
-            loginButton.disabled = false;
-            loginButton.textContent = 'تسجيل الدخول';
-
-        }
-
-    });
+});
 
 </script>
 ```
@@ -275,5 +258,3 @@ if (memberError) {
 </body>
 
 </html>
-
-
