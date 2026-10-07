@@ -234,6 +234,61 @@ logoutButton.addEventListener('click', async function () {
 });
     const familyMembersButton =
     document.getElementById('family-members-button');
+    const addMemberButton =
+    document.getElementById('add-member-button');
+
+const memberMessage =
+    document.getElementById('member-message');
+
+addMemberButton.addEventListener('click', async function () {
+
+    const memberName =
+        document.getElementById('member-name').value.trim();
+
+    if (!memberName) {
+        memberMessage.textContent =
+            '❌ من فضلك أدخل اسم فرد الأسرة';
+        return;
+    }
+
+    addMemberButton.disabled = true;
+    addMemberButton.textContent = 'جاري الإضافة...';
+
+    try {
+
+        const { error } =
+            await supabaseClient
+                .from('family_members')
+                .insert({
+                    full_name: memberName,
+                    role: 'child',
+                    active: true
+                });
+
+        if (error) {
+            throw error;
+        }
+
+        memberMessage.textContent =
+            '✅ تمت إضافة ' + memberName + ' بنجاح';
+
+        document.getElementById('member-name').value = '';
+
+    } catch (error) {
+
+        console.error(error);
+
+        memberMessage.textContent =
+            '❌ حدث خطأ: ' + error.message;
+
+    } finally {
+
+        addMemberButton.disabled = false;
+        addMemberButton.textContent = 'إضافة فرد الأسرة';
+
+    }
+
+});
 
 const familyMembersSection =
     document.getElementById('family-members-section');
