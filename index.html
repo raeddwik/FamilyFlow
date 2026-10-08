@@ -159,8 +159,7 @@
 
     <p id="dashboard-welcome"></p>
 
-    <p>👤 مسؤول الأسرة</p>
-
+<p id="dashboard-role"></p>
     <button id="family-members-button">
     👨‍👩‍👧‍👦 إدارة أفراد الأسرة
 </button>
@@ -392,6 +391,10 @@ loginMessage.textContent =
 document.querySelector('.login-card').style.display = 'none';
 
 document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('dashboard-role').textContent =
+    member.role === 'admin'
+        ? '👤 مسؤول الأسرة'
+        : '👦 حساب طفل';
 
 document.getElementById('dashboard-welcome').textContent =
     'مرحبًا ' + member.full_name;
