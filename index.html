@@ -399,6 +399,10 @@ document.getElementById('dashboard').style.display = 'block';
 document.getElementById('dashboard-welcome').textContent =
     'مرحبًا ' + member.full_name;
             
+            if (member.role !== 'admin') {
+    document.getElementById('family-members-button').style.display = 'none';
+}
+            
 } catch (error) {
 
     console.error(error);
